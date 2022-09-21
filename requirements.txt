@@ -1,0 +1,4 @@
+requests
+pystyle
+cookies_package
+colorama
