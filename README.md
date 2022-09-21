@@ -49,7 +49,7 @@
 
 
 15 🌟 Stars = Add anti debug to lower detection <br>
-25 🌟 Stars = Add better and cleaner builder
+25 🌟 Stars = Add better and cleaner builder <br>
 35 🌟 Stars = Make the client payload run as a undeletable backdoor
 
 
