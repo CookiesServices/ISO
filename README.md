@@ -82,11 +82,10 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 - [ ] Client will backdoor itself into the target machine making the payload run on startup and undeleteable
 
 
-
 ## <a id="changelog"></a>:thought_balloon: 〢 Change Log ##
 
 ```diff
-v1.1.0 ⋮ 2022-09-21
+v1.1.0 ⋮ 2022-09-22
 + Added network scanner & attack commands
 
 v1.0.0 ⋮ 2022-09-21
