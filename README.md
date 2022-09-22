@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" >
+  <img src="https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000" >
   <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" >
   <!-- <img src="https://img.shields.io/badge/license-MIT-yellow.svg" > -->
   <img src="https://img.shields.io/github/last-commit/Callumgm/ISO">
@@ -77,7 +77,7 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 ## <a id="enhancements"></a>:pushpin: 〢 Todo/Enhancements ##
 
 - [x] Clean builder and obfusecate the code before compliling
-- [ ] Add network attack commands and network scanner
+- [x] Add network attack commands and network scanner
 - [ ] Maybe remote import the client commands
 - [ ] Client will backdoor itself into the target machine making the payload run on startup and undeleteable
 
@@ -86,6 +86,9 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 ## <a id="changelog"></a>:thought_balloon: 〢 Change Log ##
 
 ```diff
+v1.1.0 ⋮ 2022-09-21
++ Added network scanner & attack commands
+
 v1.0.0 ⋮ 2022-09-21
 + Initial commit
 ```

