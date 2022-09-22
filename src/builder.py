@@ -21,7 +21,7 @@ import shutil
 from cookies_package import *
 
 def build(IP, PORT, type):
-    os.system("cls")
+    clear()
     # Copy the file to the build folder
     shutil.copy2(os.getcwd() + "\\" + type + "\\" + type + ".py", os.getcwd() + "\\" + type + ".py")
 
@@ -66,8 +66,8 @@ def build_server():
 
 
 def main():
-    os.system("cls")
-    print("Welcome to the ISO Builder")
+    clear()
+    slowPrint("Welcome to the ISO Builder")
     print("""
     
     1) Build Client
@@ -80,12 +80,12 @@ def main():
     choice = int(input("Choice: "))
 
     if choice == 1:
-        os.system("cls")
+        clear()
         build_client()
         main()
 
     elif choice == 2:
-        os.system("cls")
+        clear()
         build_server()
         main()
 
@@ -93,6 +93,7 @@ def main():
         os._exit(1)
 
     else:
+        clear()
         print("Invalid Choice")
         main()
 

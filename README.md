@@ -48,11 +48,6 @@
 ## <a id="about"></a>:dart: 〢 About ##
 
 
-15 🌟 Stars = Add anti debug to lower detection <br>
-25 🌟 Stars = Add better and cleaner builder <br>
-35 🌟 Stars = Make the client payload run as a undeletable backdoor
-
-
 > Do not scan the client compiled exe with any antivirus software, or it will be detected and rendered useless!
 
 
@@ -81,7 +76,10 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 
 ## <a id="enhancements"></a>:pushpin: 〢 Todo/Enhancements ##
 
-- [ ] Clean builder and obfusecate the code before compliling
+- [x] Clean builder and obfusecate the code before compliling
+- [ ] Add network attack commands and network scanner
+- [ ] Maybe remote import the client commands
+- [ ] Client will backdoor itself into the target machine making the payload run on startup and undeleteable
 
 
 

