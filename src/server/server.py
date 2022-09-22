@@ -53,8 +53,8 @@ dot	  	  = "\u2022"	# Dot
 #endregion
 
 
-IP   = "192.168.0.2"
-PORT = int("1888")
+IP   = "IP_HERE"
+PORT = int("PORT_HERE")
 
 
 class Server():
