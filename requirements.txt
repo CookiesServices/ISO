@@ -1,4 +1,5 @@
+cookies_package
+proxyscrape
+colorama
 requests
 pystyle
-cookies_package
-colorama
